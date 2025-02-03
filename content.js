@@ -4,6 +4,8 @@
  *
  *****************************************************************************/
 
+const UpdateInterval = 100;
+
 const Tag = {
   Player: '[data-uia="player"]',
   Timeline: '[data-uia="timeline"]',
@@ -21,7 +23,13 @@ const Tag = {
 function fmtTime(time_sec) {
   const min = Math.floor(time_sec / 60).toString().padStart(2, '0');
   const sec = Math.floor(time_sec % 60).toString().padStart(2, '0');
-  return `${min}:${sec}`;
+  if (min < 60) {
+    return `${min}:${sec}`;
+  }
+
+  const hour = Math.floor(min / 60);
+  const mins = Math.floor(min % 60).toString().padStart(2, '0');
+  return `${hour}:${mins}:${sec}`;
 }
 
 function makePlaytimeDisplayDiv(id, text) {
@@ -81,7 +89,7 @@ function update() {
 }
 
 function main() {
-  window.setInterval(update, 1000);
+  window.setInterval(update, UpdateInterval);
 }
 
 // Entrypoint
